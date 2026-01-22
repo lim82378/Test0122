@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+	<!-- 로그인 체크 -->
+	<select id="loginSelect" resultType="int">
+  		SELECT COUNT (*) FROM member WHERE id = #{id} AND pw = #{pw}
+  	</select>
+	<!-- 회원가입 -->
+  	<insert id="createId">
+  		INSERT INTO member(id, pw, name, point)
+  		VALUES(#{id},#{pw},#{name},#{point})
+  	</insert>
+  	<!-- 관리자 찾기 -->
+	<select id="getId" resultType="java.lang.String">
+		SELECT id FROM member WHERE id= #{id}
+	</select>
+	<!-- 유저정보 -->
+	<select id="userInfo" resultType="com.mj.dto.UsersDto">
+		SELECT id, pw, name, point FROM member WHERE id = #{id}
+	</select>
+	<!-- 유저들 정보 -->
+	<select id="management" resultType="com.mj.dto.UsersDto">
+		SELECT id, pw, name, point FROM member
+	</select>
+	<!-- 유저 정보 수정 -->
+	<update	id="userUpdate">
+		UPDATE member SET pw=#{pw} ,name = #{name}, point=#{point} WHERE id=#{id}
+	</update>
+	<!-- 유저 정보 삭제 -->
+	<delete id="userDelete">
+		DELETE FROM member WHERE id=#{id}
+	</delete>
+	<!-- 인원수 -->
+	<select id="userSelect" resultType="int">
+		SELECT COUNT(id) FROM member 
+	</select>
+	<!-- 포인트 갱신 -->
+	<update id="pointUpdate">
+		UPDATE member SET point = point+1
+	</update>
+	<!-- 포인트 추가 -->
+	<update id="plusPoint">
+		UPDATE member SET point= point + #{plusPoint} WHERE id = #{id}
+	</update>
+	<!-- 포인트 차감 -->
+	<update id="minusPoint">
+		UPDATE member SET point= point - #{minusPoint} WHERE id = #{id}
+	</update>
+</mapper>
